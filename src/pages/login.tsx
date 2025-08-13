@@ -13,26 +13,27 @@ import {
 } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PasswordInput } from "@/components/ui/password-input";
-import loginImage from "../../public/assets/login-image.gif";
 import { useSession } from "@/contexts/SessionContext";
-import { useEffect } from "react";
+import loginImage from "../../public/assets/login-image.gif";
+import { toaster } from "@/components/ui/toaster";
 
 const signInFormSchema = z.object({
-  email: z.email("Enter a valid e-mail address").nonempty("E-mail is required"),
-  password: z
-    .string()
-    .nonempty("A senha é obrigatória")
-    .min(8, "A senha deve ter pelo menos 8 caracteres"),
+  email: z.email("Digite um e-mail válido").nonempty("O e-mail é obrigatorio"),
+  password: z.string().nonempty("A senha é obrigatorio").min(8,"a senha deve ter pelo menos 8 caracteres")
 });
 
 type SignInFormData = z.infer<typeof signInFormSchema>;
 
 export default function Login() {
-  const { user, updateUser } = useSession();
+  const { user, signIn } = useSession();
+
+  const router = useRouter();
 
   const {
     register,
@@ -42,20 +43,27 @@ export default function Login() {
     resolver: zodResolver(signInFormSchema),
   });
 
-  function handleSignIn(data: SignInFormData) {
-    console.log(data);
-    updateUser({
-      id: "teste",
-      email: data.email,
-      cpf: "12345678901",
-      fullName: "Guilherme Sartori",
-      avatarUrl: "https://avatars.githubusercontent.com/u/123456789?v=4",
+  async function handleSignIn({ email, password }: SignInFormData) {
+    const promise = new Promise<void>(async (resolve, reject) => {
+      try {
+        await signIn({ email, password });
+        resolve();
+        router.push('/');
+      } catch {
+        reject();
+      }
     });
+
+    toaster.promise(promise, {
+      success: { title: "Login realizado com sucesso!" },
+      error: { title: "E-mail ou senha incorretos." },
+      loading: { title: "Carregando informações do usuário, aguarde..." },
+    })
   }
 
   useEffect(() => {
     console.log(user);
-  }, [user])
+  }, [user]);
 
   return (
     <Flex w="100vw" h="100vh">
