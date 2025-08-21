@@ -19,13 +19,16 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PasswordInput } from "@/components/ui/password-input";
+import { toaster } from "@/components/ui/toaster";
 import { useSession } from "@/contexts/SessionContext";
 import loginImage from "../../public/assets/login-image.gif";
-import { toaster } from "@/components/ui/toaster";
 
 const signInFormSchema = z.object({
   email: z.email("Digite um e-mail válido").nonempty("O e-mail é obrigatorio"),
-  password: z.string().nonempty("A senha é obrigatorio").min(8,"a senha deve ter pelo menos 8 caracteres")
+  password: z
+    .string()
+    .nonempty("A senha é obrigatoria")
+    .min(8, "A senha deve ter pelo menos 8 caracteres"),
 });
 
 type SignInFormData = z.infer<typeof signInFormSchema>;
@@ -48,17 +51,17 @@ export default function Login() {
       try {
         await signIn({ email, password });
         resolve();
-        router.push('/');
+        router.push("/");
       } catch {
         reject();
       }
     });
 
     toaster.promise(promise, {
-      success: { title: "Login realizado com sucesso!" },
+      success: { title: "Login realizado com sucesso." },
       error: { title: "E-mail ou senha incorretos." },
       loading: { title: "Carregando informações do usuário, aguarde..." },
-    })
+    });
   }
 
   useEffect(() => {
@@ -72,18 +75,19 @@ export default function Login() {
       </Flex>
       <VStack w="50%" justify="center">
         <Stack>
-          <Heading as="h1" fontSize="3xl" color="black" fontWeight="bold">
-            Account Login
+          <Heading as="h1" color="black" fontSize="3xl" fontWeight="bold">
+            Login
           </Heading>
-          <Text fontSize="lg" color="gray.400" fontWeight="normal">
-            If you already a member you can login with your email address and
-            password.
+
+          <Text color="gray.400" fontSize="lg" fontWeight="normal">
+            Se você já é membro, você pode fazer login com seu endereço de
+            e-mail e senha.
           </Text>
 
           <VStack
             as="form"
             onSubmit={handleSubmit(handleSignIn)}
-            align={"flex-start"}
+            align="flex-start"
             gap={6}
             mt={10}
           >
@@ -95,8 +99,8 @@ export default function Login() {
                 type="email"
                 h={16}
                 colorPalette="blue"
-                color="black"
                 borderRadius="md"
+                color="black"
                 {...register("email")}
               />
               <Field.ErrorText>{errors.email?.message}</Field.ErrorText>
@@ -104,15 +108,16 @@ export default function Login() {
 
             <Field.Root invalid={!!errors.password}>
               <Field.Label color="gray.500" fontSize="md">
-                Password
+                Senha
               </Field.Label>
               <PasswordInput
                 h={16}
                 colorPalette="blue"
-                color="black"
                 borderRadius="md"
+                color="black"
                 {...register("password")}
               />
+              <Field.ErrorText>{errors.password?.message}</Field.ErrorText>
             </Field.Root>
 
             <Checkbox
@@ -121,7 +126,7 @@ export default function Login() {
               fontSize="md"
               fontWeight="medium"
             >
-              Remember me
+              Lembre-me
             </Checkbox>
 
             <Button
@@ -133,16 +138,16 @@ export default function Login() {
               fontSize="md"
               fontWeight="medium"
             >
-              Login
+              Entrar
             </Button>
           </VStack>
 
           <HStack justify="center" gap={1} mt={10}>
-            <Text fontSize="md" fontWeight="medium" color="gray.500">
-              Dont have an account ?
+            <Text color="gray.500" fontSize="md" fontWeight="medium">
+              Não possui uma conta?
             </Text>
             <ChakraLink color="blue.500" asChild>
-              <NextLink href="/sign-up">Sign up here</NextLink>
+              <NextLink href="/sign-up">Clique aqui!</NextLink>
             </ChakraLink>
           </HStack>
         </Stack>

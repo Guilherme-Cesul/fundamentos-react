@@ -1,3 +1,10 @@
+import { Heading } from "@chakra-ui/react";
+import { DefaultLayout } from "@/layouts/DefaultLayout";
+
 export default function Home() {
-  return <div>Hello World!</div>;
+  return (
+    <DefaultLayout>
+      <Heading color="red">DASHBOARD</Heading>
+    </DefaultLayout>
+  );
 }

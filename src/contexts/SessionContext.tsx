@@ -6,30 +6,35 @@ const CESUL_USER = "cesul.user";
 const CESUL_TOKEN = "cesul.token";
 const CESUL_REFRESHTOKEN = "cesul.refreshToken";
 
+type Credentials = {
+  email: string;
+  password: string;
+};
+
 type User = {
   email: string;
   permissions: string[];
   roles: string[];
 };
 
-type Credentials = {
-  email: string;
-  password: string;
-};
-
 type SessionContextData = {
-  user: User | null;
-  updateUser: (user: User) => void;
-  signIn: (credentials: Credentials) => Promise<void>;
-  signOut: () => void;
+  user: User;
+  updateUser: (user: User) => Promise<void>;
+  signIn: ({ email, password }: Credentials) => Promise<void>;
 };
 
 const SessionContext = createContext({} as SessionContextData);
 
-export function signOut() {
-  destroyCookie(null, CESUL_USER, { path: "/" });
-  destroyCookie(null, CESUL_TOKEN, { path: "/" });
-  destroyCookie(null, CESUL_REFRESHTOKEN, { path: "/" });
+function removeCookie(name: string) {
+  destroyCookie(null, name, {
+    path: "/",
+  });
+}
+
+export async function signOut() {
+  removeCookie(CESUL_USER);
+  removeCookie(CESUL_TOKEN);
+  removeCookie(CESUL_REFRESHTOKEN);
 }
 
 interface SessionProviderProps {
@@ -37,36 +42,38 @@ interface SessionProviderProps {
 }
 
 export function SessionProvider({ children }: SessionProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>({} as User);
 
-  function createCookie(name: string, value: string) {
+  async function updateUser(user: User) {
+    createCookie(CESUL_USER, JSON.stringify(user));
+  }
+
+  async function createCookie(name: string, value: string) {
     setCookie(null, name, value, {
       path: "/",
+      httpOnly: false,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
     });
   }
 
-  function updateUser(newUser: User) {
-    setUser(newUser);
-    createCookie(CESUL_USER, JSON.stringify(newUser));
-  }
-
   async function signIn({ email, password }: Credentials) {
-    const response = await api.post("sessions", { email, password });
+    const response = await api.post("/sessions", {
+      email,
+      password,
+    });
+
     const { token, refreshToken, permissions, roles } = response.data;
 
-    const newUser: User = { email, permissions, roles };
-
-    createCookie(CESUL_USER, JSON.stringify(newUser));
+    createCookie(CESUL_USER, JSON.stringify({ email, permissions, roles }));
     createCookie(CESUL_TOKEN, token);
     createCookie(CESUL_REFRESHTOKEN, refreshToken);
 
-    setUser(newUser);
+    setUser({ email, permissions, roles });
   }
 
   return (
-    <SessionContext.Provider value={{ user, updateUser, signIn, signOut }}>
+    <SessionContext.Provider value={{ user, updateUser, signIn }}>
       {children}
     </SessionContext.Provider>
   );
