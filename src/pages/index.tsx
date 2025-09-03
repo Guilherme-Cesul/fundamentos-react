@@ -1,7 +1,6 @@
 import { Card, Flex, FormatNumber, HStack, Icon, Stat } from "@chakra-ui/react";
 import { FaArrowTrendUp, FaGraduationCap } from "react-icons/fa6";
 import { IoIosBook, IoMdPeople } from "react-icons/io";
-import { PiFileTextFill } from "react-icons/pi";
 import { DefaultLayout } from "@/layouts/DefaultLayout";
 
 export default function Home() {
@@ -10,9 +9,9 @@ export default function Home() {
       title="Dashboard Acadêmico"
       description="Visão geral do sistema acadêmico"
     >
-      <HStack>
+      <HStack gap={6}>
         <Card.Root>
-          <Card.Body flexDir="row" alignItems="center" gap={4}>
+          <Card.Body flexDir="row" alignItems="center" gap={6}>
             <Stat.Root>
               <Stat.Label>Total de Estudantes</Stat.Label>
               <Stat.ValueText>
@@ -38,7 +37,7 @@ export default function Home() {
         </Card.Root>
 
         <Card.Root>
-          <Card.Body flexDir="row" alignItems="center" gap={4}>
+          <Card.Body flexDir="row" alignItems="center" gap={6}>
             <Stat.Root>
               <Stat.Label>Professores Ativos</Stat.Label>
               <Stat.ValueText>
@@ -64,7 +63,7 @@ export default function Home() {
         </Card.Root>
 
         <Card.Root>
-          <Card.Body flexDir="row" alignItems="center" gap={4}>
+          <Card.Body flexDir="row" alignItems="center" gap={6}>
             <Stat.Root>
               <Stat.Label>Cursos Oferecidos</Stat.Label>
               <Stat.ValueText>
@@ -90,7 +89,7 @@ export default function Home() {
         </Card.Root>
 
         <Card.Root>
-          <Card.Body flexDir="row" alignItems="center" gap={4}>
+          <Card.Body flexDir="row" alignItems="center" gap={6}>
             <Stat.Root>
               <Stat.Label>Taxa de Aprovação</Stat.Label>
               <Stat.ValueText>
@@ -111,7 +110,7 @@ export default function Home() {
               align="center"
               backgroundColor="orange.100"
               rounded="lg"
-              p={4}
+              p={6}
             >
               <Icon size="xl" color="orange.700">
                 <FaArrowTrendUp />
