@@ -1,22 +1,17 @@
-import { Flex, Group, IconButton, Image, Separator } from "@chakra-ui/react";
-import {
-  IoIosMenu,
-  IoMdHelpCircle,
-  IoMdMoon,
-  IoMdNotifications,
-  IoMdSettings,
-  IoMdSunny,
-} from "react-icons/io";
-import { Avatar } from "@/components/ui/avatar";
-import { useColorMode } from "@/components/ui/color-mode";
+import { Flex, Group, Separator } from "@chakra-ui/react";
+import { ColorMode } from "./ColorMode";
+import { Help } from "./Help";
 import { Logo } from "./Logo";
+import { Menu } from "./Menu";
+import { Notifications } from "./Notifications";
+import { Profile } from "./Profile";
+import { Settings } from "./Settings";
 
 export function DefaultHeader() {
-  const { toggleColorMode, colorMode } = useColorMode();
-
   return (
     <Flex flexDir="column">
       <Flex
+        as="header"
         w="full"
         justify="space-between"
         borderBottomWidth={1}
@@ -24,37 +19,19 @@ export function DefaultHeader() {
         px={4}
       >
         <Flex align="center" gap={4}>
-          <IconButton variant="outline">
-            <IoIosMenu />
-          </IconButton>
-
-          <Logo/>
+          <Menu />
+          <Logo />
         </Flex>
 
         <Group>
-          <IconButton variant="ghost" rounded="full">
-            <IoMdNotifications />
-          </IconButton>
-
-          <IconButton variant="ghost" rounded="full">
-            <IoMdHelpCircle />
-          </IconButton>
-
-          <IconButton variant="ghost" rounded="full">
-            <IoMdSettings />
-          </IconButton>
-
-          <IconButton variant="ghost" rounded="full" onClick={toggleColorMode}>
-            {colorMode === "dark" ? <IoMdMoon /> : <IoMdSunny />}
-          </IconButton>
+          <Notifications />
+          <Help />
+          <Settings />
+          <ColorMode />
 
           <Separator h={6} colorPalette="gray" orientation="vertical" mx={2} />
 
-          <Avatar
-            name="Guilherme Sartori"
-            colorPalette="purple"
-            src=""
-          />
+          <Profile />
         </Group>
       </Flex>
     </Flex>
