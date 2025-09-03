@@ -3,7 +3,9 @@ import { DefaultLayout } from "@/layouts/DefaultLayout";
 
 export default function Students() {
   return (
-    <DefaultLayout>
+    <DefaultLayout
+    title="Gestão de Estudantes"
+    description="Gerencie as informações dos estudantes matriculados">
       <Heading color="red">Estudantes</Heading>
     </DefaultLayout>
   );

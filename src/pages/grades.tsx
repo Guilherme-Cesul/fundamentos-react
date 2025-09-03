@@ -3,7 +3,9 @@ import { DefaultLayout } from "@/layouts/DefaultLayout";
 
 export default function Grades() {
   return (
-    <DefaultLayout>
+    <DefaultLayout
+    title="Gestão de Notas"
+    description="Gerencie as notas e avaliações dos estudantes">
       <Heading color="red">Notas</Heading>
     </DefaultLayout>
   );
