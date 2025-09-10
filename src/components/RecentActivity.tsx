@@ -23,7 +23,7 @@ export function RecentActivity({
   icon,
 }: RecentActivityProps) {
   return (
-    <HStack gap={6}>
+    <HStack _hover={{ backgroundColor: "gray.50", rounded: "md" }} p={4} gap={6}>
       <Flex
         justify="center"
         align="center"

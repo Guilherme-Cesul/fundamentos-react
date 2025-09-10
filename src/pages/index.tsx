@@ -13,25 +13,25 @@ export default function Home() {
     {
       id: 1,
       type: "enrollment",
-      title: "Nova matrícula: Maria Silva - Engenharia de Software",
+      title: "Nova matrícula: Guilherme Sartori - Engenharia de Software",
       time: "2 min atrás",
     },
     {
       id: 2,
       type: "grade",
-      title: "Notas lançadas: Cálculo I - Prof. João Santos",
+      title: "Notas lançadas: Web II - Prof. Juliano Ramos",
       time: "15 min atrás",
     },
     {
       id: 3,
       type: "course",
-      title: "Novo curso criado: Análise de Ddoas",
+      title: "Novo curso criado: Análise de Dados",
       time: "1 hora atrás",
     },
     {
       id: 4,
       type: "calendar",
-      title: "Evento adicionado: Semana da Computação",
+      title: "Evento adicionado: Semana acadêmica ADS",
       time: "2 min atrás",
     },
   ];
@@ -89,7 +89,7 @@ export default function Home() {
           <Card.Header>
             <Card.Title>Atividades Recentes</Card.Title>
           </Card.Header>
-          <Card.Body gap={10}>
+          <Card.Body gap={8}>
             {recentActivities.map((activity) => {
               const ActivitiesIcon =
                 iconMap[activity.type] ?? AiFillQuestionCircle;

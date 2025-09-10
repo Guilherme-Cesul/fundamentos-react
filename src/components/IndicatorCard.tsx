@@ -22,7 +22,7 @@ export function IndicatorCard({
   const Indicator = isNegative ? Stat.DownIndicator : Stat.UpIndicator;
 
   return (
-    <Card.Root>
+    <Card.Root _hover={{ boxShadow: "md"}}>
       <Card.Body flexDir="row" alignItems="center" gap={6}>
         <Stat.Root>
           <Stat.Label>{label}</Stat.Label>
