@@ -9,21 +9,31 @@ import {
 } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 
-interface RecentActivityProps {
+interface CardBaseProps {
   title: string;
-  dateTime: string;
+  description: string;
   colorPallete: ColorPalette;
   icon: IconType;
 }
 
-export function RecentActivity({
+export function CardBase({
   title,
-  dateTime,
+  description,
   colorPallete,
   icon,
-}: RecentActivityProps) {
+}: CardBaseProps) {
   return (
-    <HStack _hover={{ backgroundColor: "gray.50", rounded: "md" }} p={4} gap={6}>
+    <HStack
+      _hover={{
+        backgroundColor: "gray.50",
+        rounded: "md",
+        _dark: {
+          backgroundColor: "gray.900",
+        },
+      }}
+      p={4}
+      gap={6}
+    >
       <Flex
         justify="center"
         align="center"
@@ -35,7 +45,7 @@ export function RecentActivity({
       </Flex>
       <VStack align="start" gap={1}>
         <Heading>{title}</Heading>
-        <Text>{dateTime}</Text>
+        <Text>{description}</Text>
       </VStack>
     </HStack>
   );
