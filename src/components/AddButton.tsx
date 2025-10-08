@@ -1,12 +1,10 @@
-import { Button, HStack } from "@chakra-ui/react"
+import { Button, ButtonProps } from "@chakra-ui/react"
 import { IoMdPersonAdd } from "react-icons/io"
 
-export function AddButton() {
+export function AddButton({ children, ...rest}: ButtonProps) {
   return (
-    <HStack>
-      <Button colorPalette="teal" variant="solid">
-        <IoMdPersonAdd /> Adicionar Estudante
+      <Button colorPalette="purple" {...rest}>
+        <IoMdPersonAdd /> {children}
       </Button>
-    </HStack>
   )
 }
